@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+		<script src="../src/babel.min.js"></script>
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<script type="text/babel">
+		
+			let {Component} = React;
+      class Button extends Component {
+				constructor(props) {
+					super(props);
+					this.state = {  // 定义内部状态
+						count: 1
+					};
+				}
+				static defaultProps =  {
+					value: '默认的按钮'
+				}
+				changeCount(){
+					// 粗暴的修改了内部状态，没有驱动组件进行重新渲染
+					//this.state.count += 1;
+					this.setState({
+						count: this.state.count + 1
+					})
+				}
+				render(){
+					return (
+						<div>
+							<input 
+							 		type="button" 
+									value={this.props.value} 
+									onClick={this.changeCount.bind(this)}
+							/>
+							 <p>{this.state.count}</p>
+						</div>
+					)
+				}
+			}
+			
+		 
+			ReactDOM.render(
+				<Button value='按钮' />,
+				document.getElementById('box')
+			)
+
+			
+
+		</script>
+	</body>
+</html>

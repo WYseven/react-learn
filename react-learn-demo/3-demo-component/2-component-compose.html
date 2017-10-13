@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+		<script src="../src/babel.min.js"></script>
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<script type="text/babel">
+			let {Component} = React;
+      // 将组件组合在一起
+      class List extends Component {
+				render(){
+					return (
+						<ul>
+              <li>miaov</li>
+              <li>miaov</li>
+              <li>miaov</li>
+              <li>miaov</li>
+            </ul>
+					)
+				}
+			}
+      class News extends Component {
+				render(){
+					return (
+						<div>
+							<h2>hello</h2>
+							<List />
+						</div>
+					)
+				}
+			}
+		 
+
+			ReactDOM.render(
+				<News />,
+				document.getElementById('box')
+			)
+		</script>
+	</body>
+</html>

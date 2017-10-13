@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+		<script src="../src/babel.min.js"></script>
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<script type="text/babel">
+			/* 
+				当外部世界要传递一些数据给 React 组件，一个最直接的方式就是通过 prop ；同样，
+				React 组件要反馈数据给外部世界，也可以用 prop ，因为 prop 的类型不限于纯数据，也
+				可以是函数，函数类型的 prop 等于让父组件交给了子组件一个回调函数，子组件在恰当
+				的实际调用函数类型的 prop ，可以带上必要的参数，这样就可以反过来把信息传递给外
+				部世界。
+			 */
+			let {Component} = React;
+      class Button extends Component {
+				clickHandle(){
+					/*this默认指向undefined*/
+					this.props.childHandle('我是子组件')
+				}
+				render(){
+					return (
+						<input 
+							type="button" 
+							value="点击了"
+							onClick={this.clickHandle.bind(this)} />
+							/*需要用bind修改指向为组件的实例对象*/
+					)
+				}
+			}
+			class Index extends Component {
+				alertChildMessage(meg){
+					console.log(meg)
+				}
+				render(){
+					return (
+						<div>
+							<Button childHandle={this.alertChildMessage} />
+						</div>
+					)
+				}
+			}
+		 
+			ReactDOM.render(
+				<Index />,
+				document.getElementById('box')
+			)
+
+			
+
+		</script>
+	</body>
+</html>

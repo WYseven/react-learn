@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+		<script src="../src/babel.min.js"></script>
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<script type='text/babel'>
+			/* 
+				JSX语法
+
+					使用JSX写出要在页面中显示什么
+					babel.js这个库最终会被转译成依赖于React的表达式,也就是javascript对象结构。
+
+
+			*/
+			
+			ReactDOM.render(
+				<h2>
+					<span>hello,miaov</span>
+				</h2>,
+				document.getElementById('box')
+			)
+
+		</script>
+	</body>
+</html>

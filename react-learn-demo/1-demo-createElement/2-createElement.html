@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<script>
+      // 其余两个为可选参数
+			let span = React.createElement('span');
+			let h2 = React.createElement('h2',{className: 'red'}, span);
+
+			ReactDOM.render(
+				h2,
+				document.getElementById('box')
+			)
+
+			// 备注：这样方式创建结构太过繁琐，用html标签嵌套的方式看起来更直观，所有有了JSX语法
+
+		</script>
+	</body>
+</html>

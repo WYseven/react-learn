@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<script>
+			/*
+				React.createElement(
+					标签名字/组件class名,
+					给标签添加的属性,
+					标签的内容
+				)
+				React.createElement 会构建一个 JavaScript 对象来描述你 HTML 结构的信息，包括标签名、属性、还有子元素等。
+			*/
+			// reactElement元素
+			// let h2 = React.createElement('h2',null, 'hello');
+			let span = React.createElement('span',{className: 'red',a:1}, 'hello');
+			let h2 = React.createElement('h2',{className: 'red'}, span);
+			
+			console.log(h2); 
+			// 通过render方法生成对应的DOM节点，装载在页面中
+			ReactDOM.render(
+				h2,
+				document.getElementById('box')
+			)
+
+			// 备注：这样方式创建结构太过繁琐，用html标签嵌套的方式看起来更直观，所有有了JSX语法
+
+		</script>
+	</body>
+</html>

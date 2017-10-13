@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+		<script src="../src/babel.min.js"></script>
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<script type='text/babel'>
+			/* 
+				JSX语法
+
+					使用JSX写出要在页面中显示什么
+					babel.js这个库最终会被转译成依赖于React的表达式,也就是javascript对象结构。
+
+
+					JSX解析规则：
+						遇到 <标签     	用 HTML 规则解析
+						遇到 {代码块   	用 JavaScript 规则解析
+						是数组            展开这个数组的所有成员  给成员结构加key值
+						class和for是js保留字，用className和htmlfor代替
+
+			*/
+			let d = 'hello'; // 数据
+      let html = <h2 alt={d}>
+					<span>{d}</span>
+					<span>{1+1}</span>
+					<span>{[1,2,3].join('+')}</span>
+				</h2>
+
+      console.log(html); // 是虚拟DOM对象
+			
+			ReactDOM.render(
+				html,
+				document.getElementById('box')
+			)
+
+		</script>
+	</body>
+</html>
