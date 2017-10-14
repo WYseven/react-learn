@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<title></title>
+		<link rel="stylesheet" href="./index.css">
+		<script src="../src/react.development.js"></script>
+		<script src="../src/react-dom.development.js"></script>
+		<script src="../src/babel.min.js"></script>
+	</head>
+
+	<body>
+		<div id="root"></div>
+		<script type="text/babel">
+		let {Component} = React;
+			/* 
+				MessageRoot
+					MessageInput
+					MessageList
+			*/
+				// MessageInput组件
+			class MessageInput extends Component {
+				constructor(props) {
+					super(props);
+					this.state = {
+						userName: '',
+						comment: ''
+					};
+				}
+
+				// 改变用户名函数
+				changeUserHandle(ev){
+					this.setState({
+						userName: ev.target.value
+					})
+				}
+
+				// 改变评论内容
+				changeCommentHandle(ev){
+					this.setState({
+						comment: ev.target.value
+					})
+				}
+
+				// 发布新消息
+				submitHandle(){
+					if(this.props.receiveHandle){
+						this.props.receiveHandle({
+							userName: this.state.userName,
+							comment: this.state.comment,
+							id: Math.random()
+						})
+
+						this.setState({
+							comment: ''
+						})
+					}
+				}
+
+				render(){
+
+					let {userName,comment} = this.state;
+
+					return (
+						<div className="comment-input">
+								<div className="comment-field">
+										<span className="comment-field-name">用户名：</span>
+											<div className="comment-field-input">
+													<input 
+														name="username"
+														value={userName}
+														onChange={this.changeUserHandle.bind(this)}
+													/>
+											</div>
+									</div>
+									<div className="comment-field">
+										<span className="comment-field-name">评论内容：</span>
+											<div className="comment-field-input">
+													<textarea 
+														name="content"
+														value = {comment}
+														onChange = {this.changeCommentHandle.bind(this)}
+													></textarea>
+											</div>
+									</div>
+									<div className="comment-field-button">
+											<button onClick={this.submitHandle.bind(this)}>发布</button>
+									</div>
+						</div>
+					)
+				}
+			}
+			// MessageList组件
+			class MessageList extends Component {
+				render(){
+					return (
+						<div>
+								{
+									this.props.messages.map(function (item,index) {
+										return (
+											<div key={item.id} className="comment">
+													<div className="comment-user">
+															<span>{item.userName}</span>：
+														</div>
+														<p>{item.comment}</p>
+											</div>
+										)
+									})
+								}
+						</div>
+					)
+				}
+			}
+			// root组件
+      class MessageRoot extends Component {
+				constructor(props) {
+					super(props);
+					this.state = {
+						messages: []
+					};
+				}
+
+				// 接收传过来的用户名和留言的对象
+				receiveHandle(obj){
+					if(!obj) return;
+					if(!obj.userName) return alert('请填写用户名')
+					if(!obj.comment) return alert('请填写留言内容')
+
+					this.state.messages.push(obj);
+
+					this.setState({
+						messages: this.state.messages
+					})
+
+				}
+
+				render(){
+					return (
+						<div className="wrapper">
+							<MessageInput receiveHandle = {this.receiveHandle.bind(this)} />
+							
+							{
+								this.state.messages.length 
+								? <MessageList messages={this.state.messages} />
+								: null
+							}
+
+						</div>
+					)
+				}
+			}
+			
+			ReactDOM.render(
+				<MessageRoot />,
+				document.getElementById('root')
+			)
+
+			
+
+		</script>
+	</body>
+</html>
