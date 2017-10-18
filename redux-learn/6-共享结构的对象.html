@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="area-one"></div>
+    <div id="area-two"></div>
+    <script>
+      
+
+      function createStore(state, stateChanger){
+        const listeners = []
+        const getState = () => state;  // 用来获取应用的数据
+        const subscribe = (listener) => listeners.push(listener)
+        const dispatch = (action) => {
+          stateChanger(state, action)
+          listeners.forEach((listener) => listener())
+        }
+        return {getState, dispatch, subscribe}
+      }
+
+      // 状态
+      let data = {
+        one:{
+          title: 'hello ,world',
+          color: 'yellow'
+        },
+        two:{
+          title: 'hello two',
+          color: 'red'
+        }
+      }
+
+      function stateChanger(state,action){
+        switch(action.type){
+          case 'update_one_title':
+            state.one.title = action.title;
+          break;
+          case 'update_Two_color':
+            state.two.color = action.color;
+          break;
+        }
+      }
+
+      let store = createStore(data, stateChanger)
+
+      store.subscribe( () => renderApp(store.getState()))
+
+      renderApp(store.getState()); // 首次渲染
+      store.dispatch({type:'update_one_title',title:'修改了one的title1'})
+      store.dispatch({type:'update_Two_color',color:'blue'})
+      // 只要调用 store.dispatch无需调用renderApp 方法
+
+      /* 
+          这里存在一个严重的性能问题
+            每次改变其中一个数据的一个值就也要渲染另一个数据的界面
+      */
+
+      function renderApp(appState){
+        console.log('render app')
+        renderAreaOne(appState.one)
+        renderAreaTwo(appState.two)
+      }
+
+      // 增加渲染函数
+      function renderAreaOne(one){
+        console.log('render one title')
+        let areaOne = document.getElementById('area-one');
+        areaOne.innerHTML = one.title;
+        areaOne.style.color = one.color;
+      }
+      function renderAreaTwo(two){
+        console.log('render two color')
+        let areaTwo = document.getElementById('area-two');
+        areaTwo.innerHTML = two.title;
+        areaTwo.style.color = two.color;
+      }
+
+    </script>
+	</body>
+</html>

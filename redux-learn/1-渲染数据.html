@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="area-one"></div>
+    <div id="area-two"></div>
+    <script>
+      // 把数据用原生的方式渲染在页面中
+      // 状态
+      let data = {
+        one:{
+          title: 'hello ,world',
+          color: 'yellow'
+        },
+        two:{
+          title: 'hello two',
+          color: 'red'
+        }
+      }
+
+      // 这个数据状态可以在渲染之前给修改
+      data.one.title = '被修改了'; // 对共享状态的操作都是不可预料的
+
+      /* 
+        这里会产生一个矛盾：
+          1. 模块（组件）之间需要共享数据
+          2. 数据可能被任意修改导致不可预料的结果
+
+          那么要解决的问题就是，既要共享数据，也要预测数据被修改？
+      */
+
+      renderApp(data)
+
+      function renderApp(appState){
+        renderAreaOne(appState.one)
+        renderAreaTwo(appState.two)
+      }
+
+      // 增加渲染函数
+      function renderAreaOne(one){
+        let areaOne = document.getElementById('area-one');
+        areaOne.innerHTML = one.title;
+        areaOne.style.color = one.color;
+      }
+      function renderAreaTwo(two){
+        let areaTwo = document.getElementById('area-two');
+        areaTwo.innerHTML = two.title;
+        areaTwo.style.color = two.color;
+      }
+
+    </script>
+	</body>
+</html>
