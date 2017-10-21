@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="area-one"></div>
+    <div id="area-two"></div>
+    <script>
+      
+      /*
+        共享结构的对象，其实就是浅复制
+      */
+
+      let obj1 = {
+        a: 10,
+        b: 20,
+        c: {d:1}
+      }
+      // 可以利用对象的扩展运算符，将对象的属性浅复制到另一个对象上，嵌套的对象实质上还是之前的对象，并没有重新创建
+      // 如果obj2中有和obj1同名的属性，那么覆盖掉
+      let obj2 = {
+        ...obj1,
+        a:30,
+        b: 50
+      }
+
+      console.log(obj2)
+      console.log(obj1.c === obj2.c)
+
+    </script>
+	</body>
+</html>

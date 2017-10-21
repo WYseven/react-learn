@@ -49,8 +49,10 @@
       }
 
       let store = createStore(data, stateChanger)
-
-      store.subscribe( () => renderApp(store.getState()))
+      store.subscribe( () => {
+        let newState = store.getState(); // 新的状态
+        renderApp(newState);
+      })
 
       renderApp(store.getState()); // 首次渲染
       store.dispatch({type:'update_one_title',title:'修改了one的title1'})
@@ -60,26 +62,29 @@
       /* 
           这里存在一个严重的性能问题
             每次改变其中一个数据的一个值就也要渲染另一个数据的界面
+
+          使用在内部判断两个对象是否相同，达不到目的
+          因为原来的对象和重新获取的是同一个对象，这样的话，即便是dispath改正了，依然无法渲染
       */
 
-      function renderApp(appState){
+      function renderApp(newState, oldState={}){
         console.log('render app')
-        renderAreaOne(appState.one)
-        renderAreaTwo(appState.two)
+        renderAreaOne(newState.one, oldState.one)
+        renderAreaTwo(newState.two, oldState.two)
       }
 
       // 增加渲染函数
-      function renderAreaOne(one){
+      function renderAreaOne(newState, oldState={}){
         console.log('render one title')
         let areaOne = document.getElementById('area-one');
-        areaOne.innerHTML = one.title;
-        areaOne.style.color = one.color;
+        areaOne.innerHTML = newState.title;
+        areaOne.style.color = newState.color;
       }
-      function renderAreaTwo(two){
+      function renderAreaTwo(newState, oldState={}){
         console.log('render two color')
         let areaTwo = document.getElementById('area-two');
-        areaTwo.innerHTML = two.title;
-        areaTwo.style.color = two.color;
+        areaTwo.innerHTML = newState.title;
+        areaTwo.style.color = newState.color;
       }
 
     </script>
