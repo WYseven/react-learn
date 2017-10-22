@@ -21,7 +21,7 @@ let appTypes = {
 
  // 定义应用要改变的数据的动作
 
- expors.appTypes = appTypes;
+ exports.appTypes = appTypes;
 
 // 设置数据过滤的字段
  exports.VisibilityFilters = {
@@ -47,5 +47,5 @@ let appTypes = {
   }
 
   exports.setVisibilityFilter =  function setVisibilityFilter(filter) {
-    return { type: appTypes.set_visibility_filter, filter }
+    return { type: appTypes.set_visibility_filter, visibilityFilter: filter }
   }

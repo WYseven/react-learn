@@ -11,6 +11,8 @@
               调用非纯函数，如 Date.now() 或 Math.random()
  */
 
+ let {combineReducers} = require('redux')
+
  let {VisibilityFilters, appTypes} = require('./actions')
 
  let initState = {
@@ -26,31 +28,28 @@
 
  // 定义一个reducer，接收state和action作为参数
 
- function todoApp(state=initState, action){
-  switch(action.type){
-    case appTypes.set_visibility_filter : // 设置过滤条件
-      return {
+ /**
+  * 随着应用越来越复杂，reducer写的也越来越复杂，这时候可以拆成单个reducer
+  * 
+  每个 reducer 只负责管理全局 state 中它负责的一部分。
+  每个 reducer 的 state 参数都不同，分别对应它管理的那部分 state 数据。
+  *
+  */
+
+  function todos(state = initState.todos, action){
+    switch(action.type){
+      case appTypes.add_todo : 
+      return [
         ...state,
-        visibilityFilter: action.visibilityFilter
-      }
-    break;
-    case appTypes.add_todo : 
-    return {
-      ...state,
-      todos: [
-        ...state.todos,
         {
           id: Date.now(),
           title: action.text,
           completed: false
         }
       ]
-    }
-    break;
-    case appTypes.toggle_todo : 
-      return {
-        ...state,
-        todos: state.todos.map((item,index) => {
+      break;
+      case appTypes.toggle_todo : 
+        return state.map((item,index) => {
           if(index === action.index){  // 如果切花的是指定的下标，则返回一个新的对象代替
             return {
               ...item,
@@ -59,12 +58,33 @@
           }
           return item
         })
-      }
-    break;
-
-    default: 
-      return state;
+      break;
+  
+      default: 
+        return state;
+    }
   }
- }
+
+  function visibilityFilter (state = initState.visibilityFilter,action) {
+    switch(action.type){
+      case appTypes.set_visibility_filter : // 设置过滤条件
+        return action.visibilityFilter
+      break;
+      default: 
+        return state;
+    }
+  }
+
+ /*function todoApp(state=initState, action){
+  return {
+    visibilityFilter: visibilityFilter(state.visibilityFilter,action),
+    todos: todos(state.todos,action)
+  }
+ }*/
+
+ const todoApp = combineReducers({
+  visibilityFilter,
+  todos
+})
 
 exports.todoApp = todoApp;
